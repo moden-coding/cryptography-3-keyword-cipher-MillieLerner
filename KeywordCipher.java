@@ -3,19 +3,58 @@ import java.util.ArrayList;
 public class KeywordCipher {
 
     public static String encodeWord(String word, ArrayList<String> codebook) {
-        return "";
+        int i = 0;
+        while (i < codebook.size()) {
+            String start = codebook.get(i);
+            String[] replace = start.split(",");
+            if (word.equals(replace[0])) {
+                word = replace[1];
+            }
+            i++;
+        }
+        return word;
     }
 
     public static String encodeSentence(String sentence, ArrayList<String> codebook) {
-        return "";
+        String[] list = sentence.split(" ");
+        int p = 0;
+        String base = "";
+        while (p < list.length) {
+            String replace = list[p];
+            replace = encodeWord(replace, codebook);
+            base = base + replace + " ";
+            p++;
+        }
+
+        return base;
     }
 
     public static String decodeSentence(String sentence, ArrayList<String> codebook) {
-        return "";
+        String[] each=sentence.split(" ");
+        int i=0;
+        int p=0;
+        String base="";
+        while(i<each.length){
+            String spec=each[i];
+
+            while (p < codebook.size()) {
+            String start = codebook.get(p);
+            String[] replace = start.split(",");
+            if (spec.equals(replace[1])) {
+                spec=replace[0];
+            }
+            p++;
+        }
+        p=0;
+        base=base+spec+" ";
+        i++;
+        }
+        
+        
+        return base;
     }
 
     public static void main(String[] args) {
-        
 
         // Build a sample codebook
         ArrayList<String> codebook = new ArrayList<String>();
@@ -30,9 +69,9 @@ public class KeywordCipher {
 
         // Test encodeWord
         System.out.println("=== encodeWord ===");
-        System.out.println(encodeWord("dog", codebook));       // expected: bravo
-        System.out.println(encodeWord("cat", codebook));       // expected: alpha
-        System.out.println(encodeWord("hello", codebook));     // expected: hello
+        System.out.println(encodeWord("dog", codebook)); // expected: bravo
+        System.out.println(encodeWord("cat", codebook)); // expected: alpha
+        System.out.println(encodeWord("hello", codebook)); // expected: hello
 
         // Test encodeSentence
         System.out.println("\n=== encodeSentence ===");
